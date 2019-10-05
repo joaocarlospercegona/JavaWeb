@@ -4,6 +4,7 @@
     Author     : joao
 --%>
 
+<%@page import="Beans.LoginBean"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="Beans.Cliente"%>
 <%@page import="Beans.Cliente"%>
@@ -55,7 +56,7 @@
               </div>
             </nav>
         <%
-            String logado = (String) session.getAttribute("logado");
+            LoginBean logado = (LoginBean) session.getAttribute("logado");
             
             String msg = "Página Indisponível, favor logar.";
 

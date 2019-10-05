@@ -6,6 +6,7 @@
 package Servlets;
 
 import Beans.Cliente;
+import Beans.LoginBean;
 import DAO.ClienteDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -39,7 +40,7 @@ public class NovoClienteServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
-        String logado = (String) session.getAttribute("logado");
+        LoginBean logado = (LoginBean) session.getAttribute("logado");
         try {
                 if (logado == null){
                 request.setAttribute("msg","Usuario deve se autenticar para acessar o sistema.");
@@ -48,6 +49,7 @@ public class NovoClienteServlet extends HttpServlet {
                 rd.forward(request, response);  
                }
                 else{
+                    request.setAttribute("oi", "oi");
                     RequestDispatcher rd = getServletContext().
                          getRequestDispatcher("/clientesnovo.jsp");
                     rd.forward(request, response);

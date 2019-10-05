@@ -4,6 +4,7 @@
     Author     : joao
 --%>
 
+<%@page import="Beans.LoginBean"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -45,7 +46,7 @@
     </head>
     <body>
         <%
-            String logado = (String) session.getAttribute("logado");
+            LoginBean logado = (LoginBean) session.getAttribute("logado");
             
             String msg = "Página Indisponível, favor logar.";
 

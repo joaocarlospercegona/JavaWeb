@@ -6,10 +6,13 @@
 package Servlets;
 
 import Beans.Cliente;
+import Beans.LoginBean;
 import DAO.ClienteDAO;
 import DAO.UsuarioDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -40,7 +43,7 @@ public class NovoCliente extends HttpServlet {
         PrintWriter out = response.getWriter();
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
-        String logado = (String) session.getAttribute("logado");
+        LoginBean logado = (LoginBean) session.getAttribute("logado");
         try {
                 if (logado == null){
                 request.setAttribute("msg","Usuario deve se autenticar para acessar o sistema.");
@@ -49,6 +52,7 @@ public class NovoCliente extends HttpServlet {
                 rd.forward(request, response);  
                }
                 else{
+                    
                     String nome = (String) request.getParameter("nome");
                     String email = (String) request.getParameter("email");
                     String cpf = (String) request.getParameter("cpf");
@@ -57,8 +61,10 @@ public class NovoCliente extends HttpServlet {
                     String uf = (String) request.getParameter("uf");
                     String cep = (String) request.getParameter("cep");
                     String nrs = (String) request.getParameter("numero");
-                    int nr = Integer.parseInt(nrs);
+                    int nr =  Integer.parseInt(nrs);
+                    //out.println(nr);
                     //Date data = ;
+                    
                     
                         Cliente p = new Cliente();
                         p.setNome(nome);
@@ -69,14 +75,16 @@ public class NovoCliente extends HttpServlet {
                         p.setRua(rua);
                         p.setCep(cep);
                         p.setNr(nr);
-                      //  p.setData(data);
+                        
+                        
                         ClienteDAO dao = new ClienteDAO();
                         dao.inserirCliente(p);
-                        
+                        out.println("b");
+                        request.setAttribute("creio", "a");
                         RequestDispatcher rd = request.
                             getRequestDispatcher("ClienteServlet");
                         rd.forward(request, response);  
-                }
+                  }
         }
          catch(Exception e){
 

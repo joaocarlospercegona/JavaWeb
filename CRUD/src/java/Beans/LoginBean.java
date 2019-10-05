@@ -16,8 +16,12 @@ public class LoginBean {
     public LoginBean(){
         
     }
-    
 
+    @Override
+    public String toString() {
+        return "LoginBean{" + "id=" + id + ", nome=" + nome + '}';
+    }
+  
     public int getId() {
         return id;
     }

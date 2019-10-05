@@ -118,7 +118,7 @@ public class ClienteDAO {
         try {
             con = ConnectionFactory.getConnection();
            
-            st = con.prepareStatement("UPDATE tabela_cliente SET nome = ?, cpf = ?, email = ?, rua = ?, nr = ?, cep = ?, cidade = ?, uf = ? WHERE id_cliente = "+id);
+            st = con.prepareStatement("UPDATE tabela_cliente SET nome = ?, cpf = ?, email = ?, rua = ?, nr = ?, cep = ?, cidade = ?, uf = ? WHERE id = "+id);
             st.setString(1, cliente.getNome());
             st.setString(2, cliente.getCpf());
             st.setString(3, cliente.getEmail());
@@ -148,7 +148,7 @@ public class ClienteDAO {
         
         try{
             con = ConnectionFactory.getConnection();
-            st = con.prepareStatement("delete from tabela_cliente where id_cliente = " + id);
+            st = con.prepareStatement("delete from tabela_cliente where id = " + id);
             st.executeUpdate();
         }
         catch (SQLException e) {
@@ -167,7 +167,7 @@ public class ClienteDAO {
     //parei aqui
     
     
-    
+   
     public void inserirCliente(Cliente pessoa) throws ClassNotFoundException{
         Connection con = null;
         PreparedStatement st = null;
@@ -179,7 +179,9 @@ public class ClienteDAO {
             st.setString(1, pessoa.getNome());
             st.setString(2, pessoa.getCpf());
             st.setString(3, pessoa.getEmail());
-            st.setDate(4, (Date) pessoa.getData());
+            
+            
+            //st.setDate(4, (Date) pessoa.getData());
             st.setString(5, pessoa.getRua());
             st.setInt(6, pessoa.getNr());
             st.setString(7, pessoa.getCep());

@@ -6,6 +6,7 @@
 package Servlets;
 
 import Beans.Cliente;
+import Beans.LoginBean;
 import DAO.ClienteDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -39,7 +40,7 @@ public class ClienteServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
-        String logado = (String) session.getAttribute("logado");
+        LoginBean logado = (LoginBean) session.getAttribute("logado");
         try {
                 if (logado == null){
                 request.setAttribute("msg","Usuario deve se autenticar para acessar o sistema.");
@@ -48,17 +49,14 @@ public class ClienteServlet extends HttpServlet {
                 rd.forward(request, response);  
                }
                 else{
-                    out.println("aqui");
                     ClienteDAO dao = new ClienteDAO();
                     List<Cliente> lista = dao.buscarTodos();
                     for(Cliente s : lista){
-                        out.println(s.getCpf());
+                        out.println(s.getNome());
                     }
                     request.setAttribute("cliente",lista);
-                    out.println("a");
                     RequestDispatcher rd = getServletContext().
                          getRequestDispatcher("/ListarCliente.jsp");
-                    out.println("oi");
                     rd.forward(request, response);
                     
                 }

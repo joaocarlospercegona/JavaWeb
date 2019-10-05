@@ -71,8 +71,7 @@
         %>
         
         
-        <jsp:useBean id="logado" class="Beans.LoginBean" scope="session"/>
-        O usuario Logado é: <jsp:getProperty name="logado" property="nome"/>
+       
         
         
         

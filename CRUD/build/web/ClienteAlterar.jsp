@@ -4,6 +4,7 @@
     Author     : joao
 --%>
 
+<%@page import="Beans.LoginBean"%>
 <%@page import="Beans.Cliente"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -47,7 +48,7 @@
     </head>
     <body>
         <%
-            String logado = (String) session.getAttribute("logado");
+            LoginBean logado = (LoginBean) session.getAttribute("logado");
             
             String msg = "Página Indisponível, favor logar.";
 
@@ -60,9 +61,7 @@
 
             } 
             else{
-                String id = (String) request.getParameter("id");
-                out.println(id);
-                request.setAttribute("amem",id);
+                
                 
             }
         %>
@@ -82,7 +81,7 @@
                     <label>Rua:</label>
                     <input type="text"  class="form-control" id="rua" placeholder="Enter rua" value='<jsp:getProperty name="alterar" property="rua" />'   name="rua"><br>
                     <label>Numero:</label>
-                    <input type="text"  class="form-control" id="numero" placeholder="Enter numero" value='<jsp:getProperty name="alterar" property="numero" />'   name="numero"><br>
+                    <input type="text"  class="form-control" id="numero" placeholder="Enter numero" value='<jsp:getProperty name="alterar" property="nr" />'   name="numero"><br>
                     <label>Cep:</label>
                     <input type="text"  class="form-control" id="cep" placeholder="Enter cep" value='<jsp:getProperty name="alterar" property="cep" />'   name="cep"><br>
                     <label>Cidade:</label>
