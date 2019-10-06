@@ -6,6 +6,7 @@
 package Servlets;
 
 import Beans.Cliente;
+import Beans.LoginBean;
 import DAO.ClienteDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -39,7 +40,7 @@ public class RemoverClienteServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
-        String logado = (String) session.getAttribute("logado");
+        LoginBean logado = (LoginBean) session.getAttribute("logado");
            
            
         try {

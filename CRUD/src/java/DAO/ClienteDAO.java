@@ -8,7 +8,7 @@ package DAO;
 import Beans.Cliente;
 import Beans.Usuario;
 import java.sql.Connection;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -86,6 +86,7 @@ public class ClienteDAO {
               p.setNome(rs.getString("nome"));
               p.setCpf(rs.getString("cpf"));
               p.setEmail(rs.getString("email"));
+             // p.setData(rs.getDate("data_cliente"));
               p.setCep(rs.getString("cep"));
               p.setCidade(rs.getString("cidade"));
               p.setUf(rs.getString("uf"));
@@ -175,13 +176,13 @@ public class ClienteDAO {
         try {
             con = ConnectionFactory.getConnection();
            
+            Date dt = new Date();
+            
             st = con.prepareStatement("INSERT INTO tabela_cliente (nome,cpf,email,data_cliente,rua,nr,cep,cidade,uf) VALUES (?,?,?,?,?,?,?,?,?)");
             st.setString(1, pessoa.getNome());
             st.setString(2, pessoa.getCpf());
             st.setString(3, pessoa.getEmail());
-            
-            
-            //st.setDate(4, (Date) pessoa.getData());
+            st.setDate(4, new java.sql.Date(dt.getTime()) );
             st.setString(5, pessoa.getRua());
             st.setInt(6, pessoa.getNr());
             st.setString(7, pessoa.getCep());

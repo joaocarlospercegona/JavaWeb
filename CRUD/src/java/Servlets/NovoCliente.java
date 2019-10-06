@@ -76,7 +76,7 @@ public class NovoCliente extends HttpServlet {
                         p.setCep(cep);
                         p.setNr(nr);
                         
-                        
+                        out.println("indo");
                         ClienteDAO dao = new ClienteDAO();
                         dao.inserirCliente(p);
                         out.println("b");

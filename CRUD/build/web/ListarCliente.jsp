@@ -99,7 +99,7 @@
             <%  }  %>
                   </table>
       
-         <jsp:useBean id="email" class="Beans.ConfigBean" scope="application" />
-            <div class="rodape">Em caso de problemas, contactar o administrador <jsp:getProperty name="email" property="email" /></div>
+         <jsp:useBean id="configuracao" class="Beans.ConfigBean" scope="application" />
+            <div class="rodape">Em caso de problemas, contactar o administrador <jsp:getProperty name="configuracao" property="email" /></div>
     </body>
 </html>
