@@ -10,6 +10,7 @@ import Beans.LoginBean;
 import DAO.ClienteDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -37,8 +38,6 @@ public class ClienteServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
-        response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         LoginBean logado = (LoginBean) session.getAttribute("logado");
         try {
@@ -49,21 +48,135 @@ public class ClienteServlet extends HttpServlet {
                 rd.forward(request, response);  
                }
                 else{
-                    ClienteDAO dao = new ClienteDAO();
-                    List<Cliente> lista = dao.buscarTodos();
-                    for(Cliente s : lista){
-                        out.println(s.getNome());
-                    }
-                    request.setAttribute("cliente",lista);
-                    RequestDispatcher rd = getServletContext().
-                         getRequestDispatcher("/ListarCliente.jsp");
-                    rd.forward(request, response);
+                    String action = request.getParameter("action");
                     
+                    if(action != null){
+                        ClienteDAO dao = new ClienteDAO();
+                        switch(action){
+                        case "show":
+                            {
+                                String ids = request.getParameter("id");
+                                List<Cliente> p = dao.buscarUM(ids);
+                                
+                                for(Cliente s : p)
+                                    request.setAttribute("s",s);
+                                
+                                RequestDispatcher rd = getServletContext().
+                                    getRequestDispatcher("/ClientesVisualizar.jsp");
+                                rd.forward(request, response);
+                                break;
+                            }
+                            case "ver":
+                            {
+                                List<Cliente> listando = dao.buscarTodos();
+                                request.setAttribute("cliente",listando);
+                                RequestDispatcher rd = getServletContext().
+                                        getRequestDispatcher("/ListarCliente.jsp");
+                                rd.forward(request,response);
+                                break;
+                            }
+                        case "formUpdate":
+                            {
+                                String ids = request.getParameter("id");
+                                List<Cliente> a = dao.buscarUM(ids);
+                                for(Cliente s : a)
+                                    request.setAttribute("alterar",s);
+                                
+                                RequestDispatcher rd = getServletContext().
+                                    getRequestDispatcher("/ClienteAlterar.jsp");
+                                rd.forward(request, response);
+                                break;
+                            }
+                        case "remove":
+                            {
+                                String ids = request.getParameter("id");
+                                dao.excluiCliente(ids);
+                                RequestDispatcher rd = getServletContext().
+                                    getRequestDispatcher("/ClienteServlet?action=ver");
+                                rd.forward(request, response);
+                                break;
+                            }
+                        case "update":
+                            {
+                                String ids = request.getParameter("id");
+                                String nome = (String) request.getParameter("nome");
+                                String email = (String) request.getParameter("email");
+                                String cpf = (String) request.getParameter("cpf");
+                                String cidade = (String) request.getParameter("cidade");
+                                String rua = (String) request.getParameter("rua");
+                                String uf = (String) request.getParameter("uf");
+                                String cep = (String) request.getParameter("cep");
+                                String nrs = (String) request.getParameter("numero");
+                                int nr =  Integer.parseInt(nrs);
+                                
+                                Cliente p = new Cliente();
+                                p.setNome(nome);
+                                p.setEmail(email);
+                                p.setCpf(cpf);
+                                p.setCidade(cidade);
+                                p.setUf(uf);
+                                p.setRua(rua);
+                                p.setCep(cep);
+                                p.setNr(nr);
+                                
+                                dao.AlteraCliente(p, ids);
+                                RequestDispatcher rd = getServletContext().
+                                    getRequestDispatcher("/ClienteServlet?action=ver");
+                                rd.forward(request, response);
+                                break;
+                            }
+                        case "formNew":
+                            {
+                                
+                                RequestDispatcher rd = getServletContext().
+                                    getRequestDispatcher("/clientesnovo.jsp");
+                                rd.forward(request, response);
+                                break;
+                            }
+                        case "new":
+                            {
+                                
+                                String nome = (String) request.getParameter("nome");
+                                String email = (String) request.getParameter("email");
+                                String cpf = (String) request.getParameter("cpf");
+                                String cidade = (String) request.getParameter("cidade");
+                                String rua = (String) request.getParameter("rua");
+                                String uf = (String) request.getParameter("uf");
+                                String cep = (String) request.getParameter("cep");
+                                String nrs = (String) request.getParameter("numero");
+                                int nr =  Integer.parseInt(nrs);
+                                
+                                Cliente p = new Cliente();
+                                p.setNome(nome);
+                                p.setEmail(email);
+                                p.setCpf(cpf);
+                                p.setCidade(cidade);
+                                p.setUf(uf);
+                                p.setRua(rua);
+                                p.setCep(cep);
+                                p.setNr(nr);
+                                
+                                dao.inserirCliente(p);
+                                
+                                RequestDispatcher rd = getServletContext().
+                                    getRequestDispatcher("/ClienteServlet?action=ver");
+                                rd.forward(request, response);
+                                break;
+                            }
+                        default:
+                            {
+                                RequestDispatcher rd = getServletContext().
+                                        getRequestDispatcher("/Erro.jsp");
+                                rd.forward(request,response);
+                                break;
+                            }
+                        }
+                    }
                 }
         }
          catch(Exception e){
-
-            }
+             e.printStackTrace();
+         }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

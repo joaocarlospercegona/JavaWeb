@@ -10,6 +10,7 @@
 <%@page import="Beans.Cliente"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
    <head>
@@ -50,7 +51,7 @@
                 </div>
                 <ul class="nav navbar-nav">
                   <li class="active"><a href="#">Home</a></li>
-                  <li><a href="NovoClienteServlet">Novo Cliente</a></li>
+                  <li><a href="ClienteServlet?action=formNew">Novo Cliente</a></li>
                   <li><a href="LogoutServlet">Sair</a></li>
                 </ul>
               </div>
@@ -67,9 +68,7 @@
                 rd.forward(request, response);
 
             } 
-                List<Cliente> lista;
-                lista= (List) request.getAttribute("cliente");
-                
+               
         %>
         
         
@@ -86,20 +85,20 @@
                         <th><b>Excluir</b></th>
                     </tr> 
        
-                <%  for (Cliente s : lista) { %>
-                    <tr> 
-                        <td><%out.println(s.getId());%></td>
-                        <td><%out.println(s.getCpf());%></td>
-                        <td><%out.println(s.getNome());%></td>
-                        <td><%out.println(s.getEmail());%></td>
-                        <td><a href="VisualizarClienteServlet?id=<%out.println(s.getId());%>"><img src="ver.jpeg" width=45 height=40></a></td>
-                        <td><a href="FormAlterarClienteServlet?id=<%out.println(s.getId());%>"><img src="edita.jpeg" width=45 height=40></a></td>
-                        <td><a href="RemoverClienteServlet?id=<%out.println(s.getId());%> "><img src="retira.jpeg" width=45 height=40></a></td>
-                    </tr>
-            <%  }  %>
+                       <c:forEach items="${cliente}" var="c" >
+                           <tr> 
+                            <td>${c.id}</td>
+                            <td>${c.cpf}</td>
+                            <td>${c.nome}</td>
+                            <td>${c.email}</td>
+                            <td><a href="ClienteServlet?action=show&id=${c.id}"><img src="ver.jpeg" width=45 height=40></a></td>
+                            <td><a href="ClienteServlet?action=formUpdate&id=${c.id}"><img src="edita.jpeg" width=45 height=40></a></td>
+                            <td><a href="ClienteServlet?action=remove&id=${c.id}"><img src="retira.jpeg" width=45 height=40></a></td>
+                           </tr>
+                      </c:forEach>
                   </table>
       
          <jsp:useBean id="configuracao" class="Beans.ConfigBean" scope="application" />
-            <div class="rodape">Em caso de problemas, contactar o administrador <jsp:getProperty name="configuracao" property="email" /></div>
+            <div class="rodape">Em caso de problemas, contactar o administrador ${configuracao.email}</div>
     </body>
 </html>

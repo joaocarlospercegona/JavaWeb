@@ -60,7 +60,7 @@
         %>
         <div class="login-page">
             <div class="alinhado" >
-                <form  method="post" action="NovoCliente">          
+                <form  method="post" action="ClienteServlet?action=new">          
                     <label>Nome:</label>
                     <input type="text"  class="form-control" id="nome" placeholder="Enter nome" name="nome">
                     <label>CPF:</label>

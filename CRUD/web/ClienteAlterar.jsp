@@ -65,34 +65,34 @@
                 
             }
         %>
-        <jsp:useBean id="alterar" class="Beans.Cliente" scope="request" />
+        
         
         <div class="login-page">
             <div class="alinhado" >
-                <form  method="post" action="AlterarClienteServlet">         
+                <form  method="post" action="ClienteServlet?action=update">         
                     <label>Id:</label>
-                    <input type="text"  class="form-control" id="nome" placeholder="Enter nome" value='<jsp:getProperty name="alterar" property="id" />'  name="id">
+                    <input type="text"  class="form-control" id="nome" placeholder="Enter nome" value='${alterar.id}' name="id">
                     <label>Nome:</label>
-                    <input type="text"  class="form-control" id="nome" placeholder="Enter nome" value='<jsp:getProperty name="alterar" property="nome" />'  name="nome">
+                    <input type="text"  class="form-control" id="nome" placeholder="Enter nome" value='${alterar.nome}'  name="nome">
                     <label>CPF:</label>
-                    <input type="text"  class="form-control" id="cpf" placeholder="Enter cpf"  value='<jsp:getProperty name="alterar" property="cpf" />'   name="cpf"><br>  
+                    <input type="text"  class="form-control" id="cpf" placeholder="Enter cpf"  value='${alterar.cpf}'   name="cpf"><br>  
                     <label>Email:</label>
-                    <input type="text"  class="form-control" id="email" placeholder="Enter email" value='<jsp:getProperty name="alterar" property="email" />'   name="email"><br>
+                    <input type="text"  class="form-control" id="email" placeholder="Enter email" value='${alterar.email}'   name="email"><br>
                     <label>Rua:</label>
-                    <input type="text"  class="form-control" id="rua" placeholder="Enter rua" value='<jsp:getProperty name="alterar" property="rua" />'   name="rua"><br>
+                    <input type="text"  class="form-control" id="rua" placeholder="Enter rua" value='${alterar.rua}'   name="rua"><br>
                     <label>Numero:</label>
-                    <input type="text"  class="form-control" id="numero" placeholder="Enter numero" value='<jsp:getProperty name="alterar" property="nr" />'   name="numero"><br>
+                    <input type="text"  class="form-control" id="numero" placeholder="Enter numero" value='${alterar.numero}'   name="numero"><br>
                     <label>Cep:</label>
-                    <input type="text"  class="form-control" id="cep" placeholder="Enter cep" value='<jsp:getProperty name="alterar" property="cep" />'   name="cep"><br>
+                    <input type="text"  class="form-control" id="cep" placeholder="Enter cep" value='${alterar.cep}'   name="cep"><br>
                     <label>Cidade:</label>
-                    <input type="text"  class="form-control" id="cidade" placeholder="Enter cidade" value='<jsp:getProperty name="alterar" property="cidade" />'   name="cidade"><br>
+                    <input type="text"  class="form-control" id="cidade" placeholder="Enter cidade" value='${alterar.cidade}'   name="cidade"><br>
                     <label>UF:</label>
-                    <input type="text"  class="form-control" id="uf" placeholder="Enter UF" value='<jsp:getProperty name="alterar" property="uf" />'   name="uf"><br>
+                    <input type="text"  class="form-control" id="uf" placeholder="Enter UF" value='${alterar.uf}'   name="uf"><br>
                     
                     <button type="submit" class="btn btn-primary">Alterar</button>
                    
                 </form>
-                    <br><a href="ClienteServlet"><button class="btn btn-primary">Cancelar</button></a>
+                    <br><a href="ClienteServlet?action=ver"><button class="btn btn-primary">Cancelar</button></a>
             </div>
         </div>
     </body>

@@ -41,52 +41,41 @@ public class LoginServlet extends HttpServlet {
         String usuario = (String) request.getParameter("usuario");
         String senha = (String) request.getParameter("senha");
         String msg= "Usuario nao encontrado";
-        PrintWriter out = response.getWriter();
-        response.setContentType("text/html;charset=UTF-8");
-        
         int i;
         
-        try  {
-            UsuarioDAO dao = new UsuarioDAO();
-            List<Usuario> lista = dao.buscarTodos();
-            for (Usuario x: lista) {
-                out.println(x);
-                if(usuario.equals(x.getUsuario())&&(senha.equals(x.getSenha()))){
-                    out.println("logado:");
-                    LoginBean p = new LoginBean();
-                    p.setId(x.getId());
-                    p.setNome(x.getNome());
-                    String logado = p.toString(); 
-                    session.setAttribute("logado",p);
-                    session.setAttribute("logados",p);
+            if((usuario != null)&&(senha != null)){      
+                try  {
+                    UsuarioDAO dao = new UsuarioDAO();
+                    List<Usuario> lista = dao.buscarTodos();
+                    for (Usuario x: lista) {
+                        if(usuario.equals(x.getUsuario())&&(senha.equals(x.getSenha()))){
+                            LoginBean p = new LoginBean();
+                            p.setId(x.getId());
+                            p.setNome(x.getNome());
+                            String logado = p.toString(); 
+                            session.setAttribute("logado",p);
+                            session.setAttribute("logados",p);
+                            RequestDispatcher rd = getServletContext().
+                                getRequestDispatcher("/Portal.jsp");
+                            rd.forward(request, response);
+                        }  
+                    }           
+                    request.setAttribute("msg","Usuario/Senha Invalidos");
+                    request.setAttribute("page","index.html");
                     RequestDispatcher rd = getServletContext().
-            getRequestDispatcher("/Portal.jsp");
-            rd.forward(request, response);
-                }  
+                        getRequestDispatcher("/Index.jsp");
+                    rd.forward(request, response);
+                }
+                catch(Exception e){
+                    e.getStackTrace();
+                }
             }
-         
-            out.println("Deslogado");
-                    
-            request.setAttribute("msg","Usuario/Senha Invalidos");
-            request.setAttribute("page","index.html");
-            RequestDispatcher rd = getServletContext().
-            getRequestDispatcher("/Index.jsp");
-            rd.forward(request, response);
-                    
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet LoginServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");  
-            out.println("</body>");
-            out.println("</html>");
-        }
-        catch(Exception e){
-        }
+            else{
+                RequestDispatcher rd = getServletContext().
+                        getRequestDispatcher("/Erro.jsp");
+                    rd.forward(request, response);
+            }
     }
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -125,5 +114,4 @@ public class LoginServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }

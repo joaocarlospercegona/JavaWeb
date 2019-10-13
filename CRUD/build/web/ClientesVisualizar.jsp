@@ -49,23 +49,23 @@
                 </div>
                 <ul class="nav navbar-nav">
                   <li class="active"><a href="Index.jsp">Home</a></li>
-                  <li><a href="ClienteServlet">Lista de Clientes</a></li>
+                  <li><a href="ClienteServlet?action=ver">Lista de Clientes</a></li>
                   <li><a href="LogoutServlet">Sair</a></li>
                 </ul>
               </div>
             </nav>
             <div class="login-page">
                 <div class="alinhado" >
-                    <h3>Id:</h3> <jsp:getProperty name="s" property="id" />
-                    <h3>Nome:</h3> <jsp:getProperty name="s" property="nome" />
-                    <h3>Cpf:</h3> <jsp:getProperty name="s" property="cpf" />
-                    <h3>Email:</h3> <jsp:getProperty name="s" property="email" />
-                    <h3>Data:</h3> <jsp:getProperty name="s" property="data" />
-                    <h3>Rua:</h3> <jsp:getProperty name="s" property="rua" />
-                    <h3>Numero:</h3> <jsp:getProperty name="s" property="nr" />
-                    <h3>Cep:</h3> <jsp:getProperty name="s" property="cep" />
-                    <h3>Cidade:</h3> <jsp:getProperty name="s" property="cidade" />
-                    <h3>UF:</h3> <jsp:getProperty name="s" property="uf" />
+                    <h3>Id:</h3> ${s.id}
+                    <h3>Nome:</h3> ${s.nome}
+                    <h3>Cpf:</h3> ${s.cpf}
+                    <h3>Email:</h3> ${s.email}
+                    <h3>Data:</h3> ${s.data}
+                    <h3>Rua:</h3> ${s.rua}
+                    <h3>Numero:</h3> ${s.numero}
+                    <h3>Cep:</h3> ${s.cep}
+                    <h3>Cidade:</h3> ${s.cidade}
+                    <h3>UF:</h3> ${s.uf}
                     
                 </div>
             </div>

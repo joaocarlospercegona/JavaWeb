@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page errorPage="erro.jsp" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -53,19 +54,19 @@
            <div class="mover">
              <a href="PortalServlet" algin="center"><button type="button" class="btn btn-success">Portal Servlet</button></a>   
            </div>
+         
         <div class="login-page">
             <div class="alinhado" >
-                <form  method="post" action="LoginServlet">          
+                <form  method="post" action="JspForward.jsp">          
                     <label>Usuario:</label>
                     <input type="text"  class="form-control" id="usuario" placeholder="Enter usuario" name="usuario">
                     <label for="pwd">Password:</label>
                     <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="senha"><br>             
-                    <button type="submit" class="btn btn-primary">Logar</button>
+                    <button type="submit" class="btn btn-primary">Logar</button>    
                 </form>
             </div>
         </div>
-            <jsp:useBean id="configuracao" class="Beans.ConfigBean" scope="application" />
-            <div class="rodape">Em caso de problemas, contactar o administrador <jsp:getProperty name="configuracao" property="email" /> 
-            </div>
+         
+        <div class="rodape">Em caso de problemas, contactar o administrador  ${configuracao.email}</div>
     </body>
 </html>

@@ -57,7 +57,7 @@ public class NovoClienteServlet extends HttpServlet {
                 }
         }
          catch(Exception e){
-
+                e.printStackTrace();
             }
     }
 

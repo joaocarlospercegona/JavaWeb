@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page isErrorPage="true" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -35,22 +36,15 @@
             </style>
     </head>
     <body>
-         <% 
-         String pag = (String)request.getAttribute("page");   
-         String msg = (String)request.getAttribute("msg");
-        %>
-        
         <div class="container">
-            <h1>
-                <%
-                    out.println(pag);
-                %>
-            </h1> 
-                <p>Click no link para redicionar para pagina <mark><a href="<% out.println(msg); %>"><% out.println(page); %></a></mark></p>
+<!--            Mensagem-->
+            ${pageContext.exception.message};
+<!--            StackTrace-->
+            ${pageContext.out.flush()};
+            ${pageCOntext.expetion.printStackTrace(pageContext.response.writer)};
         </div>
        
-        <jsp:useBean id="email" class="Beans.ConfigBean" scope="application" />
-            <div class="rodape">Em caso de problemas, contactar o administrador <jsp:getProperty name="email" property="email" /> 
-            </div>
+            <jsp:useBean id="email" class="Beans.ConfigBean" scope="application" />
+            <div class="rodape">Em caso de problemas, contactar o administrador  ${configuracao.email}</div>
     </body>
 </html>

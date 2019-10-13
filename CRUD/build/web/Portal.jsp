@@ -10,6 +10,7 @@
 <%@page import="Beans.Usuario"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page errorPage="erro.jsp" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -56,12 +57,7 @@
                         getRequestDispatcher("/Index.jsp");
                 rd.forward(request, response);
 
-            } else {
-                
-                UsuarioDAO dao = new UsuarioDAO();
-                List<Usuario> lista = dao.buscarTodos();
-                
-            }
+            } 
         %>
             <nav class="navbar navbar-default">
               <div class="container-fluid">
@@ -70,7 +66,7 @@
                 </div>
                 <ul class="nav navbar-nav">
                   <li class="active"><a href="#">Home</a></li>
-                  <li><a href="ClienteServlet">Cadastro de clientes.</a></li>
+                  <li><a href="ClienteServlet?action=ver">Cadastro de clientes.</a></li>
                   <li><a href="LogoutServlet">Sair</a></li>
                 </ul>
               </div>
@@ -78,9 +74,7 @@
       
         <br>
             <jsp:useBean id="logados" class="Beans.LoginBean" scope="session" />
-            <h1 align="center">O usuario logado é: <jsp:getProperty name="logados" property="nome" /></h1>
-       
-            <jsp:useBean id="configuracao" class="Beans.ConfigBean" scope="application" />
-            <div class="rodape">Em caso de problemas, contactar o administrador <jsp:getProperty name="configuracao" property="email" /></div>
+            <h1 align="center">O usuario logado é: ${logados.nome}</h1>      
+            <div class="rodape">Em caso de problemas, contactar o administrador  ${configuracao.email}</div>
     </body>
 </html>
