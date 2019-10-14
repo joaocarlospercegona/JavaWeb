@@ -68,7 +68,7 @@ public class FormAlterarClienteServlet extends HttpServlet {
                 }
         }
          catch(Exception e){
-
+                e.printStackTrace();
             }
     }
 

@@ -64,7 +64,7 @@ public class VisualizarClienteServlet extends HttpServlet {
                 }
         }
          catch(Exception e){
-
+                e.printStackTrace();
             }
     }
 
