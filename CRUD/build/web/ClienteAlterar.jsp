@@ -81,7 +81,7 @@
                     <label>Rua:</label>
                     <input type="text"  class="form-control" id="rua" placeholder="Enter rua" value='${alterar.rua}'   name="rua"><br>
                     <label>Numero:</label>
-                    <input type="text"  class="form-control" id="numero" placeholder="Enter numero" value='${alterar.numero}'   name="numero"><br>
+                    <input type="text"  class="form-control" id="numero" placeholder="Enter numero" value='${alterar.nr}'   name="numero"><br>
                     <label>Cep:</label>
                     <input type="text"  class="form-control" id="cep" placeholder="Enter cep" value='${alterar.cep}'   name="cep"><br>
                     <label>Cidade:</label>

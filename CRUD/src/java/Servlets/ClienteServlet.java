@@ -9,6 +9,11 @@ import Beans.Cliente;
 import Beans.LoginBean;
 import DAO.ClienteDAO;
 import facade.ClienteFacade;
+import static facade.ClienteFacade.altera;
+import static facade.ClienteFacade.busca;
+import static facade.ClienteFacade.buscaTodos;
+import static facade.ClienteFacade.exclui;
+import static facade.ClienteFacade.insere;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -52,15 +57,14 @@ public class ClienteServlet extends HttpServlet {
                     String action = request.getParameter("action");
                     
                     if(action != null){
-                        ClienteFacade facade = new ClienteFacade();
+                        
                         switch(action){
                         case "show":
                             {
                                 String ids = request.getParameter("id");
-                                List<Cliente> p = facade.busca(ids);
+                                Cliente p  = busca(ids);
                                 
-                                for(Cliente s : p)
-                                    request.setAttribute("s",s);
+                                request.setAttribute("s",p);
                                 
                                 RequestDispatcher rd = getServletContext().
                                     getRequestDispatcher("/ClientesVisualizar.jsp");
@@ -69,7 +73,7 @@ public class ClienteServlet extends HttpServlet {
                             }
                             case "ver":
                             {
-                                List<Cliente> listando = facade.buscaTodos();
+                                List<Cliente> listando = buscaTodos();
                                 request.setAttribute("cliente",listando);
                                 RequestDispatcher rd = getServletContext().
                                         getRequestDispatcher("/ListarCliente.jsp");
@@ -79,9 +83,9 @@ public class ClienteServlet extends HttpServlet {
                         case "formUpdate":
                             {
                                 String ids = request.getParameter("id");
-                                List<Cliente> a = facade.busca(ids);
-                                for(Cliente s : a)
-                                    request.setAttribute("alterar",s);
+                                Cliente a = busca(ids);
+                                
+                                    request.setAttribute("alterar",a);
                                 
                                 RequestDispatcher rd = getServletContext().
                                     getRequestDispatcher("/ClienteAlterar.jsp");
@@ -91,7 +95,7 @@ public class ClienteServlet extends HttpServlet {
                         case "remove":
                             {
                                 String ids = request.getParameter("id");
-                                facade.exclui(ids);
+                                exclui(ids);
                                 RequestDispatcher rd = getServletContext().
                                     getRequestDispatcher("/ClienteServlet?action=ver");
                                 rd.forward(request, response);
@@ -120,7 +124,7 @@ public class ClienteServlet extends HttpServlet {
                                 p.setCep(cep);
                                 p.setNr(nr);
                                 
-                                facade.altera(p, ids);
+                                altera(p, ids);
                                 RequestDispatcher rd = getServletContext().
                                     getRequestDispatcher("/ClienteServlet?action=ver");
                                 rd.forward(request, response);
@@ -157,7 +161,7 @@ public class ClienteServlet extends HttpServlet {
                                 p.setCep(cep);
                                 p.setNr(nr);
                                 
-                                facade.insere(p);
+                                insere(p);
                                 
                                 RequestDispatcher rd = getServletContext().
                                     getRequestDispatcher("/ClienteServlet?action=ver");

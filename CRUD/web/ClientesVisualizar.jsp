@@ -40,7 +40,6 @@
     </head>
     <body>
          
-         <jsp:useBean id="s" class="Beans.Cliente" scope="request" />
          
             <nav class="navbar navbar-default">
               <div class="container-fluid">
@@ -62,11 +61,10 @@
                     <h3>Email:</h3> ${s.email}
                     <h3>Data:</h3> ${s.data}
                     <h3>Rua:</h3> ${s.rua}
-                    <h3>Numero:</h3> ${s.numero}
+                    <h3>Numero:</h3> ${s.nr}
                     <h3>Cep:</h3> ${s.cep}
                     <h3>Cidade:</h3> ${s.cidade}
                     <h3>UF:</h3> ${s.uf}
-                    
                 </div>
             </div>
                 

@@ -32,7 +32,7 @@ public final class Index_jsp extends org.apache.jasper.runtime.HttpJspBase
     try {
       response.setContentType("text/html;charset=UTF-8");
       pageContext = _jspxFactory.getPageContext(this, request, response,
-      			null, true, 8192, true);
+      			"erro.jsp", true, 8192, true);
       _jspx_page_context = pageContext;
       application = pageContext.getServletContext();
       config = pageContext.getServletConfig();
@@ -44,6 +44,7 @@ public final class Index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\n");
       out.write("\n");
       out.write("\n");
+      out.write(" \n");
       out.write("<!DOCTYPE html>\n");
       out.write("<html>\n");
       out.write("    <head>\n");
@@ -84,43 +85,29 @@ public final class Index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("        \n");
       out.write("    </head>\n");
       out.write("    <body align=\"center\">\n");
-      out.write("        ");
-
-            String msg = (String) request.getAttribute("msg");
-        
-      out.write("\n");
-      out.write("        <h4 style=\"color:red\">");
- out.println(msg);
-      out.write("</h4>\n");
+      out.write("        <h4 style=\"color:red\"> ");
+      out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${msg}", java.lang.String.class, (PageContext)_jspx_page_context, null));
+      out.write(" </h4> \n");
       out.write("         <img src=\"logo.jpeg\" alt=\"aqui\"/>\n");
       out.write("           <div class=\"mover\">\n");
       out.write("             <a href=\"PortalServlet\" algin=\"center\"><button type=\"button\" class=\"btn btn-success\">Portal Servlet</button></a>   \n");
       out.write("           </div>\n");
+      out.write("         \n");
       out.write("        <div class=\"login-page\">\n");
       out.write("            <div class=\"alinhado\" >\n");
-      out.write("                <form  method=\"post\" action=\"LoginServlet\">          \n");
+      out.write("                <form  method=\"post\" action=\"JspForward.jsp\">          \n");
       out.write("                    <label>Usuario:</label>\n");
       out.write("                    <input type=\"text\"  class=\"form-control\" id=\"usuario\" placeholder=\"Enter usuario\" name=\"usuario\">\n");
       out.write("                    <label for=\"pwd\">Password:</label>\n");
       out.write("                    <input type=\"password\" class=\"form-control\" id=\"pwd\" placeholder=\"Enter password\" name=\"senha\"><br>             \n");
-      out.write("                    <button type=\"submit\" class=\"btn btn-primary\">Logar</button>\n");
+      out.write("                    <button type=\"submit\" class=\"btn btn-primary\">Logar</button>    \n");
       out.write("                </form>\n");
       out.write("            </div>\n");
       out.write("        </div>\n");
-      out.write("            ");
-      Beans.ConfigBean email = null;
-      synchronized (application) {
-        email = (Beans.ConfigBean) _jspx_page_context.getAttribute("email", PageContext.APPLICATION_SCOPE);
-        if (email == null){
-          email = new Beans.ConfigBean();
-          _jspx_page_context.setAttribute("email", email, PageContext.APPLICATION_SCOPE);
-        }
-      }
-      out.write("\n");
-      out.write("            <div class=\"rodape\">Em caso de problemas, contactar o administrador ");
-      out.write(org.apache.jasper.runtime.JspRuntimeLibrary.toString((((Beans.ConfigBean)_jspx_page_context.findAttribute("email")).getEmail())));
-      out.write(" \n");
-      out.write("            </div>\n");
+      out.write("         \n");
+      out.write("        <div class=\"rodape\">Em caso de problemas, contactar o administrador  ");
+      out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${configuracao.email}", java.lang.String.class, (PageContext)_jspx_page_context, null));
+      out.write("</div>\n");
       out.write("    </body>\n");
       out.write("</html>\n");
     } catch (Throwable t) {

@@ -7,6 +7,7 @@ package facade;
 
 import Beans.Cliente;
 import DAO.ClienteDAO;
+import static java.lang.System.out;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,37 +17,49 @@ import java.util.logging.Logger;
  * @author joao
  */
 public class ClienteFacade {
-    public ClienteFacade(){
-    }
     
-    ClienteDAO dao = new ClienteDAO();
     
-    public void insere(Cliente pessoa){
+    
+    
+    public static void insere(Cliente pessoa){
         try {
+            ClienteDAO dao = new ClienteDAO();
             dao.inserirCliente(pessoa);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ClienteFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public void altera(Cliente cliente, String id){
+    public static void altera(Cliente cliente, String id){
         try {
+            ClienteDAO dao = new ClienteDAO();
             dao.AlteraCliente(cliente, id);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ClienteFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public void exclui(String id){
+    public static void exclui(String id){
         try {
+            ClienteDAO dao = new ClienteDAO();
             dao.excluiCliente(id);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ClienteFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public List<Cliente> busca(String id){
-        List<Cliente> c = dao.buscarUM(id);
-        return c;
+    public static Cliente busca(String id){
+        try{
+            ClienteDAO dao = new ClienteDAO();
+            List<Cliente> c = dao.buscarUM(id);
+                for(Cliente p : c){
+                    return p;
+                }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
-    public List<Cliente> buscaTodos(){
+    public static List<Cliente> buscaTodos(){
+        ClienteDAO dao = new ClienteDAO();
         List<Cliente> c = dao.buscarTodos();
         return c;
     }
