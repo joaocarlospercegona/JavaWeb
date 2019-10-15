@@ -5,7 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page errorPage="erro.jsp" %>
+<%@page errorPage="erro.jsp" %> 
 <!DOCTYPE html>
 <html>
     <head>
@@ -46,10 +46,7 @@
         
     </head>
     <body align="center">
-        <%
-            String msg = (String) request.getAttribute("msg");
-        %>
-        <h4 style="color:red"><% out.println(msg);%></h4>
+        <h4 style="color:red"> ${msg} </h4> 
          <img src="logo.jpeg" alt="aqui"/>
            <div class="mover">
              <a href="PortalServlet" algin="center"><button type="button" class="btn btn-success">Portal Servlet</button></a>   

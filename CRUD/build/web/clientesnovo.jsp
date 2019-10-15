@@ -72,7 +72,7 @@
                     <label>Numero:</label>
                     <input type="text"  class="form-control" id="numero" placeholder="Enter numero" name="numero"><br>
                     <label>Cep:</label>
-                    <input type="text"  class="form-control" id="cep" placeholder="Enter cep" name="cep"><br>
+                    <input type="text"  class="form-control" id="cep" placeholder="Enter cep" name="cep" maxlength="8" size="8"><br>
                     <label>Cidade:</label>
                     <input type="text"  class="form-control" id="cidade" placeholder="Enter cidade" name="cidade"><br>
                     <label>UF:</label>
@@ -85,4 +85,3 @@
         </div>
     </body>
 </html>
-rua

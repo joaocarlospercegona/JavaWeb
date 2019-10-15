@@ -8,11 +8,7 @@ package Servlets;
 import Beans.Cliente;
 import Beans.LoginBean;
 import DAO.ClienteDAO;
-import static facade.ClientesFacade.alterar;
-import static facade.ClientesFacade.buscar;
-import static facade.ClientesFacade.buscarTodos;
-import static facade.ClientesFacade.inserir;
-import static facade.ClientesFacade.remover;
+import facade.ClienteFacade;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -46,155 +42,142 @@ public class ClienteServlet extends HttpServlet {
         HttpSession session = request.getSession();
         LoginBean logado = (LoginBean) session.getAttribute("logado");
         try {
-            if (logado == null) {
-                request.setAttribute("msg", "Usuario deve se autenticar para acessar o sistema.");
+                if (logado == null){
+                request.setAttribute("msg","Usuario deve se autenticar para acessar o sistema.");
                 RequestDispatcher rd = getServletContext().
-                        getRequestDispatcher("/Index.jsp");
-                rd.forward(request, response);
-            } else {
-                String action = request.getParameter("action");
-
-                if (action != null) {
-                    switch (action) {
-                        case "list": {
-                            List<Cliente> p = buscarTodos();
-                            request.setAttribute("cliente", p);
-                            RequestDispatcher rd = getServletContext().
-                                    getRequestDispatcher("/clientesListar.jsp");
-                            rd.forward(request, response);
-                            break;
-                        }
-
-                        case "show": { //provavelmente bugado
-                            int id = Integer.parseInt(request.getParameter("id"));
-                            Cliente s = buscar(id);
-                            request.setAttribute("s", s);
-
-//                            List<Cliente> p = dao.buscarUM(ids);
-//
-//                            for (Cliente s : p) {
-//                                request.setAttribute("s", s);
-//                            }
-                            RequestDispatcher rd = getServletContext().
+                getRequestDispatcher("/Index.jsp");
+                rd.forward(request, response);  
+               }
+                else{
+                    String action = request.getParameter("action");
+                    
+                    if(action != null){
+                        ClienteFacade facade = new ClienteFacade();
+                        switch(action){
+                        case "show":
+                            {
+                                String ids = request.getParameter("id");
+                                List<Cliente> p = facade.busca(ids);
+                                
+                                for(Cliente s : p)
+                                    request.setAttribute("s",s);
+                                
+                                RequestDispatcher rd = getServletContext().
                                     getRequestDispatcher("/ClientesVisualizar.jsp");
-                            rd.forward(request, response);
-                            break;
-                        }
-                        case "ver": {
-                            List<Cliente> p = buscarTodos();
-                            request.setAttribute("cliente", p);
-                            RequestDispatcher rd = getServletContext().
-                                    getRequestDispatcher("/ListarCliente.jsp");
-                            rd.forward(request, response);
-                            break;
-                        }
-                        case "formUpdate": {
-//                            String ids = request.getParameter("id");
-//                            List<Cliente> a = dao.buscarUM(ids);
-//                            for (Cliente s : a) {
-//                                request.setAttribute("alterar", s);
-//                            }
-                            int id = Integer.parseInt(request.getParameter("id"));
-                            Cliente s = buscar(id);
-                            request.setAttribute("alterar", s);
-
-                            RequestDispatcher rd = getServletContext().
+                                rd.forward(request, response);
+                                break;
+                            }
+                            case "ver":
+                            {
+                                List<Cliente> listando = facade.buscaTodos();
+                                request.setAttribute("cliente",listando);
+                                RequestDispatcher rd = getServletContext().
+                                        getRequestDispatcher("/ListarCliente.jsp");
+                                rd.forward(request,response);
+                                break;
+                            }
+                        case "formUpdate":
+                            {
+                                String ids = request.getParameter("id");
+                                List<Cliente> a = facade.busca(ids);
+                                for(Cliente s : a)
+                                    request.setAttribute("alterar",s);
+                                
+                                RequestDispatcher rd = getServletContext().
                                     getRequestDispatcher("/ClienteAlterar.jsp");
-                            rd.forward(request, response);
-                            break;
-                        }
-                        case "remove": {
-                            remover(request.getParameter("id"));                            
-                            RequestDispatcher rd = getServletContext().
+                                rd.forward(request, response);
+                                break;
+                            }
+                        case "remove":
+                            {
+                                String ids = request.getParameter("id");
+                                facade.exclui(ids);
+                                RequestDispatcher rd = getServletContext().
                                     getRequestDispatcher("/ClienteServlet?action=ver");
-                            rd.forward(request, response);
-                            break;
-                        }
-                        case "update": {
-                            String ids = request.getParameter("id");
-                            String nome = (String) request.getParameter("nome");
-                            String email = (String) request.getParameter("email");
-                            String cpf = (String) request.getParameter("cpf");
-                            String cidade = (String) request.getParameter("cidade");
-                            String rua = (String) request.getParameter("rua");
-                            String uf = (String) request.getParameter("uf");
-                            String cep = (String) request.getParameter("cep");
-                            String nrs = (String) request.getParameter("numero");
-                            int nr = Integer.parseInt(nrs);
-
-                            Cliente p = new Cliente();
-                            p.setNome(nome);
-                            p.setEmail(email);
-                            p.setCpf(cpf);
-                            p.setCidade(cidade);
-                            p.setUf(uf);
-                            p.setRua(rua);
-                            p.setCep(cep);
-                            p.setNr(nr);
-
-                            alterar(p, ids);
-                            
-                            RequestDispatcher rd = getServletContext().
+                                rd.forward(request, response);
+                                break;
+                            }
+                        case "update":
+                            {
+                                String ids = request.getParameter("id");
+                                String nome = (String) request.getParameter("nome");
+                                String email = (String) request.getParameter("email");
+                                String cpf = (String) request.getParameter("cpf");
+                                String cidade = (String) request.getParameter("cidade");
+                                String rua = (String) request.getParameter("rua");
+                                String uf = (String) request.getParameter("uf");
+                                String cep = (String) request.getParameter("cep");
+                                String nrs = (String) request.getParameter("numero");
+                                int nr =  Integer.parseInt(nrs);
+                                
+                                Cliente p = new Cliente();
+                                p.setNome(nome);
+                                p.setEmail(email);
+                                p.setCpf(cpf);
+                                p.setCidade(cidade);
+                                p.setUf(uf);
+                                p.setRua(rua);
+                                p.setCep(cep);
+                                p.setNr(nr);
+                                
+                                facade.altera(p, ids);
+                                RequestDispatcher rd = getServletContext().
                                     getRequestDispatcher("/ClienteServlet?action=ver");
-                            rd.forward(request, response);
-                            break;
-                        }
-                        case "formNew": {
-
-                            RequestDispatcher rd = getServletContext().
+                                rd.forward(request, response);
+                                break;
+                            }
+                        case "formNew":
+                            {
+                                
+                                RequestDispatcher rd = getServletContext().
                                     getRequestDispatcher("/clientesnovo.jsp");
-                            rd.forward(request, response);
-                            break;
-                        }
-                        case "new": {
-
-                            String nome = (String) request.getParameter("nome");
-                            String email = (String) request.getParameter("email");
-                            String cpf = (String) request.getParameter("cpf");
-                            String cidade = (String) request.getParameter("cidade");
-                            String rua = (String) request.getParameter("rua");
-                            String uf = (String) request.getParameter("uf");
-                            String cep = (String) request.getParameter("cep");
-                            String nrs = (String) request.getParameter("numero");
-                            int nr = Integer.parseInt(nrs);
-
-                            Cliente p = new Cliente();
-                            p.setNome(nome);
-                            p.setEmail(email);
-                            p.setCpf(cpf);
-                            p.setCidade(cidade);
-                            p.setUf(uf);
-                            p.setRua(rua);
-                            p.setCep(cep);
-                            p.setNr(nr);
-
-                            inserir(p);
-
-                            RequestDispatcher rd = getServletContext().
+                                rd.forward(request, response);
+                                break;
+                            }
+                        case "new":
+                            {
+                                
+                                String nome = (String) request.getParameter("nome");
+                                String email = (String) request.getParameter("email");
+                                String cpf = (String) request.getParameter("cpf");
+                                String cidade = (String) request.getParameter("cidade");
+                                String rua = (String) request.getParameter("rua");
+                                String uf = (String) request.getParameter("uf");
+                                String cep = (String) request.getParameter("cep");
+                                String nrs = (String) request.getParameter("numero");
+                                int nr =  Integer.parseInt(nrs);
+                                
+                                Cliente p = new Cliente();
+                                p.setNome(nome);
+                                p.setEmail(email);
+                                p.setCpf(cpf);
+                                p.setCidade(cidade);
+                                p.setUf(uf);
+                                p.setRua(rua);
+                                p.setCep(cep);
+                                p.setNr(nr);
+                                
+                                facade.insere(p);
+                                
+                                RequestDispatcher rd = getServletContext().
                                     getRequestDispatcher("/ClienteServlet?action=ver");
-                            rd.forward(request, response);
-                            break;
-                        }
-                        default: {
-                            RequestDispatcher rd = getServletContext().
-                                    getRequestDispatcher("/Erro.jsp");
-                            rd.forward(request, response);
-                            break;
+                                rd.forward(request, response);
+                                break;
+                            }
+                        default:
+                            {
+                                RequestDispatcher rd = getServletContext().
+                                        getRequestDispatcher("/Erro.jsp");
+                                rd.forward(request,response);
+                                break;
+                            }
                         }
                     }
-                    //caso null
-                } else {
-                    List<Cliente> p = buscarTodos();
-                    request.setAttribute("cliente", p);
-                    RequestDispatcher rd = getServletContext().
-                            getRequestDispatcher("/clientesListar.jsp");
-                    rd.forward(request, response);
-
                 }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
+         catch(Exception e){
+             e.printStackTrace();
+         }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

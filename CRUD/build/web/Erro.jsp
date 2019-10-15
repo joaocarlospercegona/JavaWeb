@@ -44,7 +44,7 @@
             ${pageCOntext.expetion.printStackTrace(pageContext.response.writer)};
         </div>
        
-            <jsp:useBean id="email" class="Beans.ConfigBean" scope="application" />
+          
             <div class="rodape">Em caso de problemas, contactar o administrador  ${configuracao.email}</div>
     </body>
 </html>

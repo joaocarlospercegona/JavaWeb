@@ -3,7 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/lps/Documents/JavaWeb-master/CRUD/build/generated/src/org/apache/jsp/ClientesListar_jsp.java</file>
+            <file>file:/home/joao/Área%20de%20Trabalho/JavaWeb/CRUD/web/Index.jsp</file>
+            <file>file:/home/joao/Área%20de%20Trabalho/JavaWeb/CRUD/web/Portal.jsp</file>
+            <file>file:/home/joao/Área%20de%20Trabalho/JavaWeb/CRUD/src/java/facade/ClienteFacade.java</file>
+            <file>file:/home/joao/Área%20de%20Trabalho/JavaWeb/CRUD/web/ClientesVisualizar.jsp</file>
+            <file>file:/home/joao/Área%20de%20Trabalho/JavaWeb/CRUD/web/ClienteAlterar.jsp</file>
+            <file>file:/home/joao/Área%20de%20Trabalho/JavaWeb/CRUD/src/java/Servlets/ClienteServlet.java</file>
         </group>
     </open-files>
 </project-private>

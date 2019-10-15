@@ -63,7 +63,7 @@ public class RemoverClienteServlet extends HttpServlet {
                 }
         }
          catch(Exception e){
-                e.printStackTrace();
+
             }
     }
 
