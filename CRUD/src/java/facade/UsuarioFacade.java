@@ -6,46 +6,41 @@
 package facade;
 
 import Beans.Cliente;
+import Beans.Usuario;
 import DAO.ClienteDAO;
-import static java.lang.System.out;
+import DAO.UsuarioDAO;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
- * @author joao
+ * @author lps
  */
-public class ClienteFacade {
-    
-    
-    
-    
-    public static void insere(Cliente pessoa){
-        ClienteDAO dao = new ClienteDAO();
+public class UsuarioFacade {
+    public static void insere(Usuario pessoa){
+        UsuarioDAO dao = new UsuarioDAO();
         dao.create(pessoa);
     }
-    public static void altera(Cliente cliente, String id){ 
-        ClienteDAO dao = new ClienteDAO();
-        dao.edit(cliente); //tirei :  , id
+    public static void altera(Usuario pessoa, String id){ 
+        UsuarioDAO dao = new UsuarioDAO();
+        dao.edit(pessoa); //tirei :  , id
     }
     public static void exclui(String idd){
         int id = Integer.parseInt(idd); //gambiarra
-        ClienteDAO dao = new ClienteDAO();
+        UsuarioDAO dao = new UsuarioDAO();
         dao.destroy(id);
     }
-    public static Cliente busca(String idd){
+    public static Usuario busca(String idd){
             int id = Integer.parseInt(idd); //gambiarra
-            ClienteDAO dao = new ClienteDAO();
+            UsuarioDAO dao = new UsuarioDAO();
             //List<Cliente> c = dao.find(id);
                 //for(Cliente p : c){
                     return dao.find(id);
                 //}
         //return null;
     }
-    public static List<Cliente> buscaTodos(){
-        ClienteDAO dao = new ClienteDAO();
-        List<Cliente> c = dao.findEntities();
+    public static List<Usuario> buscaTodos(){
+        UsuarioDAO dao = new UsuarioDAO();
+        List<Usuario> c = dao.findEntities();
         return c;
     }
 }

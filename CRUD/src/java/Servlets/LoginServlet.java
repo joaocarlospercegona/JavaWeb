@@ -8,6 +8,7 @@ package Servlets;
 import Beans.LoginBean;
 import Beans.Usuario;
 import DAO.UsuarioDAO;
+import static facade.UsuarioFacade.buscaTodos;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -45,8 +46,8 @@ public class LoginServlet extends HttpServlet {
         
             if((usuario != null)&&(senha != null)){      
                 try  {
-                    UsuarioDAO dao = new UsuarioDAO();
-                    List<Usuario> lista = dao.buscarTodos();
+                    //UsuarioDAO dao = new UsuarioDAO();
+                    List<Usuario> lista = buscaTodos();
                     for (Usuario x: lista) {
                         if(usuario.equals(x.getUsuario())&&(senha.equals(x.getSenha()))){
                             LoginBean p = new LoginBean();

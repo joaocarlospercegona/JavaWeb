@@ -8,6 +8,7 @@ package Servlets;
 import Beans.Cliente;
 import Beans.LoginBean;
 import DAO.ClienteDAO;
+import static facade.ClienteFacade.exclui;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -56,7 +57,7 @@ public class RemoverClienteServlet extends HttpServlet {
                      String id = (String) request.getParameter("id");
                      out.println("teste"+id);
                      ClienteDAO dao = new ClienteDAO();
-                     dao.excluiCliente(id);
+                     exclui(id);
                      RequestDispatcher rd = request.
                         getRequestDispatcher("ClienteServlet");
                      rd.forward(request, response);

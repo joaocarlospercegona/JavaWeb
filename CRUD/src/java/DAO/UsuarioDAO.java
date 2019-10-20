@@ -6,76 +6,138 @@
 package DAO;
 
 import Beans.Usuario;
+import static java.rmi.server.LogStream.log;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import Beans.Cliente;
+import Beans.Usuario;
+import static java.rmi.server.LogStream.log;
+import java.sql.Connection;
+import java.util.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
+
 
 /**
  *
  * @author joao
  */
-public class UsuarioDAO {
+public class UsuarioDAO extends BaseDAOImp implements BaseDAO<Usuario> {
+    
     public UsuarioDAO() {
+      super();
     }
-    
-    public List<Usuario> buscarTodos() {
-        
-        List<Usuario> resultado = new ArrayList<Usuario>();
-        Connection con = null;
-        PreparedStatement st = null;
-        ResultSet rs = null;
-        
+
+    @Override
+        public List<Usuario> findEntities(boolean all, int maxResults, int firstResult) {
+
+          List<Usuario> result = null;
+          java.sql.PreparedStatement ps = null;
+          java.sql.ResultSet rs = null;
+
+
         try {
-            con = ConnectionFactory.getConnection();
-            st = con.prepareStatement("SELECT * from usuario");
-            rs = st.executeQuery();
-            
-            while (rs.next()){
+          verificaConexao();
+          ps = conn.prepareStatement("select nome_usuario "
+                  + " from tb_usuario order by nome_usuario");
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                result = new java.util.ArrayList<Usuario>();
+                if (!all) {
+                    int contagem = 1;  // primeiro next
+                    while (contagem < firstResult) {
+                        rs.next();
+                        contagem++;
+                    }
+                }
+                do {
               Usuario p = new Usuario();
-              p.setNome(rs.getString("nome"));
-              p.setUsuario(rs.getString("usuario"));
-              p.setSenha(rs.getString("senha"));
-              resultado.add(p);
-            }
-            return resultado;
-            
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        } finally {
-            if (rs!=null)
-                try {rs.close();} catch (Exception e){}
-            if (st!=null)
-                try {st.close();} catch (Exception e){}
-            if (con!=null)
-                try {con.close();} catch (Exception e){}
+              p.setNome(rs.getString("nome_usuario"));
+              p.setUsuario(rs.getString("login_usuario"));
+              p.setSenha(rs.getString("senha_usuario"));
+              result.add(p);
+            } while ((result.size() < maxResults || all) && rs.next());
         }
-        //return null;
+
+    } catch (java.sql.SQLException ex) {
+        //log.severe("", ex);
+    } finally {
+        JDBCUtils.close(rs);
+        JDBCUtils.close(ps);
     }
-    
-    public void inserirPessoa(Usuario pessoa) throws ClassNotFoundException{
-        Connection con = null;
-        PreparedStatement st = null;
-        
+    return result;
+}
+
+@Override
+public void create(Usuario pessoa) {
+  java.sql.PreparedStatement ps = null;
+  java.sql.ResultSet rs = null;
+  String sql = "INSERT INTO tb_usuario (nome_usuario,login_usuario,senha_usuario) VALUES (?,?,?)";
+
         try {
-            con = ConnectionFactory.getConnection();
-           
-            st = con.prepareStatement("INSERT INTO usuario (nome,usuario,senha) VALUES (?,?,?)");
-            st.setString(1, pessoa.getNome());
-            st.setString(2, pessoa.getUsuario());
-            st.setString(3, pessoa.getSenha());
-            System.out.println("Inserindo!");
-            st.executeUpdate();
-            
-        } catch (SQLException e) {
-           throw new RuntimeException(e);
+            ps = getConnection().prepareStatement(sql);
+
+            ps.setString(1, pessoa.getNome());
+            ps.setString(2, pessoa.getUsuario());
+            ps.setString(3, pessoa.getSenha());
+
+            if (ps.executeUpdate() == 0) {
+                //log.warning(ps.toString() + " not inserted.");
+            } else {
+                rs = ps.getGeneratedKeys();
+                if (rs.next()) {
+                    pessoa.setID(rs.getInt(1));
+                }
+            }
+        } catch (SQLException ex) {
+            //log.severe("", ex);
         } finally {
-            if (st!=null)
-                try {st.close();} catch (SQLException e){}
-            if (con!=null)
-                try {con.close();} catch (SQLException e){}
+            JDBCUtils.close(ps);
         }
-    }   
+
+    }
+
+    @Override
+    public void edit(Usuario vo) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void destroy(Usuario obj) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void destroy(Integer id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Usuario> findEntities() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Usuario> findEntities(int maxResults, int firstResult) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Usuario find(Integer id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public int getCount() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

@@ -8,6 +8,7 @@ package Servlets;
 import Beans.Cliente;
 import Beans.LoginBean;
 import DAO.ClienteDAO;
+import static facade.ClienteFacade.busca;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -56,11 +57,12 @@ public class FormAlterarClienteServlet extends HttpServlet {
                      String id = (String) request.getParameter("id");
                      out.println("teste"+id);
                      ClienteDAO dao = new ClienteDAO();
-                     List<Cliente> a = dao.buscarUM(id);
-                     for(Cliente s : a){
+                     //List<Cliente> a = busca(id);
+                     Cliente s = busca(id);
+                     //for(Cliente s : a){
                          out.println(s.getNome());
                          request.setAttribute("alterar",s);
-                     }
+                     //}
                      request.setAttribute("ida", id);
                      RequestDispatcher rd = getServletContext().
                         getRequestDispatcher("/ClienteAlterar.jsp?id="+id);

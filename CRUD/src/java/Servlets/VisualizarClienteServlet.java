@@ -8,6 +8,7 @@ package Servlets;
 import Beans.Cliente;
 import Beans.LoginBean;
 import DAO.ClienteDAO;
+import static facade.ClienteFacade.busca;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -51,12 +52,13 @@ public class VisualizarClienteServlet extends HttpServlet {
                 else{
                      String id = (String) request.getParameter("id");
                      out.println("teste"+id);
-                     ClienteDAO dao = new ClienteDAO();
-                     List<Cliente> p = dao.buscarUM(id);
-                     for(Cliente s : p){
+                     //ClienteDAO dao = new ClienteDAO();
+                     //List<Cliente> p = busca(id);
+                     Cliente s = busca(id);
+                     //for(Cliente s : p){
                          out.println(s.getNome());
                          request.setAttribute("s",s);
-                     }
+                     //}
                      request.setAttribute("idp", id);
                      RequestDispatcher rd = request.
                         getRequestDispatcher("/ClientesVisualizar.jsp");

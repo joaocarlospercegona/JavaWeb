@@ -14,190 +14,263 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  *
  * @author joao
  */
-public class ClienteDAO {
+public class ClienteDAO extends BaseDAOImp implements BaseDAO<Cliente>{
+    
+  private static final Logger log = Logger.getLogger(ClienteDAO.class.getName());
+  
     public ClienteDAO(){
+      super();
     }
-    public List<Cliente> buscarTodos() {
-        
-        List<Cliente> resultado = new ArrayList<Cliente>();
-        Connection con = null;
-        PreparedStatement st = null;
-        ResultSet rs = null;
-        
+
+    public ClienteDAO(java.sql.Connection con) {
+        setConnection(con);
+    }
+
+    @Override
+    public void create(Cliente pessoa) {
+      java.sql.PreparedStatement ps = null;
+      java.sql.ResultSet rs = null;
+      String sql = "INSERT INTO tabela_cliente (nome_cliente,cpf_cliente,email_cliente,data_cliente,rua_cliente,nr_cliente,cep_cliente,cidade_cliente,uf_cliente) VALUES (?,?,?,?,?,?,?,?,?)";
+
         try {
-            con = ConnectionFactory.getConnection();
-            st = con.prepareStatement("SELECT * from tabela_cliente");
-            rs = st.executeQuery();
-            
-            while (rs.next()){
-              Cliente p = new Cliente();
-              p.setId(rs.getInt("id"));
-              p.setNome(rs.getString("nome"));
-              p.setCpf(rs.getString("cpf"));
-              p.setEmail(rs.getString("email"));
-              p.setCep(rs.getString("cep"));
-              p.setCidade(rs.getString("cidade"));
-              p.setUf(rs.getString("uf"));
-              p.setNr(rs.getInt("nr"));
-              p.setRua(rs.getString("rua"));
-              p.setData(rs.getDate("data_cliente"));
-              
-              resultado.add(p);
-            }
-            
-            return resultado;
-            
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        } finally {
-            if (rs!=null)
-                try {rs.close();} catch (Exception e){}
-            if (st!=null)
-                try {st.close();} catch (Exception e){}
-            if (con!=null)
-                try {con.close();} catch (Exception e){}
-        }
-        //return null;
-    }
-    
-    public List<Cliente> buscarUM(String id) {
-        
-        List<Cliente> resultado = new ArrayList<Cliente>();
-        Connection con = null;
-        PreparedStatement st = null;
-        ResultSet rs = null;
-        int i;
-        i = Integer.parseInt(id);
-        
-        try {
-            con = ConnectionFactory.getConnection();
-            st = con.prepareStatement("SELECT * from tabela_cliente");
-            rs = st.executeQuery();
-            
-            while (rs.next()){
-              if(i == rs.getInt("id")){ 
-              Cliente p = new Cliente();
-              p.setId(rs.getInt("id"));
-              p.setNome(rs.getString("nome"));
-              p.setCpf(rs.getString("cpf"));
-              p.setEmail(rs.getString("email"));
-             // p.setData(rs.getDate("data_cliente"));
-              p.setCep(rs.getString("cep"));
-              p.setCidade(rs.getString("cidade"));
-              p.setUf(rs.getString("uf"));
-              p.setNr(rs.getInt("nr"));
-              p.setRua(rs.getString("rua"));
-              p.setData(rs.getDate("data_cliente"));
-              resultado.add(p);
-              }
-            }
-            
-            return resultado;
-            
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        } finally {
-            if (rs!=null)
-                try {rs.close();} catch (Exception e){}
-            if (st!=null)
-                try {st.close();} catch (Exception e){}
-            if (con!=null)
-                try {con.close();} catch (Exception e){}
-        }
-        //return null;
-    }
-    
-    public void AlteraCliente(Cliente cliente, String id) throws ClassNotFoundException{
-        Connection con = null;
-        PreparedStatement st = null;
-        
-        try {
-            con = ConnectionFactory.getConnection();
-           
-            st = con.prepareStatement("UPDATE tabela_cliente SET nome = ?, cpf = ?, email = ?, rua = ?, nr = ?, cep = ?, cidade = ?, uf = ? WHERE id = "+id);
-            st.setString(1, cliente.getNome());
-            st.setString(2, cliente.getCpf());
-            st.setString(3, cliente.getEmail());
-            st.setString(4, cliente.getRua());
-            st.setInt(5, cliente.getNr());
-            st.setString(6, cliente.getCep());
-            st.setString(7, cliente.getCidade());
-            st.setString(8, cliente.getUf());
-            //st.setInt(4, cliente.getId());                       MEXER AQUI DEPOIS
-            System.out.println(cliente.getNome() + id);
-            st.executeUpdate();
-            
-        } catch (SQLException e) {
-           throw new RuntimeException(e);
-        } finally {
-            if (st!=null)
-                try {st.close();} catch (SQLException e){}
-            if (con!=null)
-                try {con.close();} catch (SQLException e){}
-        }
-    }
-    
-    
-    public void excluiCliente(String id) throws ClassNotFoundException{
-        Connection con = null;
-        PreparedStatement st = null;
-        
-        try{
-            con = ConnectionFactory.getConnection();
-            st = con.prepareStatement("delete from tabela_cliente where id = " + id);
-            st.executeUpdate();
-        }
-        catch (SQLException e) {
-           throw new RuntimeException(e);
-        } finally {
-            if (st!=null)
-                try {st.close();} catch (SQLException e){}
-            if (con!=null)
-                try {con.close();} catch (SQLException e){}
-        }
-    }
-    
-    
-    
-    
-    //parei aqui
-    
-    
-   
-    public void inserirCliente(Cliente pessoa) throws ClassNotFoundException{
-        Connection con = null;
-        PreparedStatement st = null;
-        
-        try {
-            con = ConnectionFactory.getConnection();
-           
+            ps = getConnection().prepareStatement(sql);
+
             Date dt = new Date();
-            
-            st = con.prepareStatement("INSERT INTO tabela_cliente (nome,cpf,email,data_cliente,rua,nr,cep,cidade,uf) VALUES (?,?,?,?,?,?,?,?,?)");
-            st.setString(1, pessoa.getNome());
-            st.setString(2, pessoa.getCpf());
-            st.setString(3, pessoa.getEmail());
-            st.setDate(4, new java.sql.Date(dt.getTime()) );
-            st.setString(5, pessoa.getRua());
-            st.setInt(6, pessoa.getNr());
-            st.setString(7, pessoa.getCep());
-            st.setString(8, pessoa.getCidade());
-            st.setString(9, pessoa.getUf());
-            System.out.println("Inserindo!");
-            st.executeUpdate();
-            
-        } catch (SQLException e) {
-           throw new RuntimeException(e);
+
+            ps.setString(1, pessoa.getNome());
+            ps.setString(2, pessoa.getCpf());
+            ps.setString(3, pessoa.getEmail());
+            ps.setDate(4, new java.sql.Date(dt.getTime()) );
+            ps.setString(5, pessoa.getRua());
+            ps.setInt(6, pessoa.getNr());
+            ps.setString(7, pessoa.getCep());
+            ps.setString(8, pessoa.getCidade());
+            ps.setString(9, pessoa.getUf());
+
+            if (ps.executeUpdate() == 0) {
+                log.warning(ps.toString() + " not inserted.");
+            } else {
+                rs = ps.getGeneratedKeys();
+                if (rs.next()) {
+                    pessoa.setID(rs.getInt(1));
+                }
+            }
+        } catch (SQLException ex) {
+            //log.severe("", ex);
         } finally {
-            if (st!=null)
-                try {st.close();} catch (SQLException e){}
-            if (con!=null)
-                try {con.close();} catch (SQLException e){}
+            JDBCUtils.close(ps);
         }
-    } 
+
+    }
+
+    @Override
+    public void edit(Cliente cliente) {
+      if (cliente.getID() < 1) {
+          log.warning("update ignored (not id defined) ");
+          return;
+      }
+      java.sql.PreparedStatement ps = null;
+      String sql = "UPDATE tabela_cliente SET nome_cliente = ?, cpf_cliente = ?, email_cliente = ?, rua_cliente = ?, nr_cliente = ?, cep_cliente = ?, cidade_cliente = ?, uf_cliente = ?  "
+              + " where id_cliente = ?";
+
+        try {
+            ps = getConnection().prepareStatement(sql);
+
+            ps.setString(1, cliente.getNome());
+            ps.setString(2, cliente.getCpf());
+            ps.setString(3, cliente.getEmail());
+            ps.setString(4, cliente.getRua());
+            ps.setInt(5, cliente.getNr());
+            ps.setString(6, cliente.getCep());
+            ps.setString(7, cliente.getCidade());
+            ps.setString(8, cliente.getUf());
+
+            if (ps.executeUpdate() == 0) {
+                log.warning(ps.toString() + " not updated.");
+            }
+        } catch (SQLException ex) {
+            //log.severe("", ex);
+        } finally {
+            JDBCUtils.close(ps);
+        }
+    }
+
+    @Override
+    public void destroy(Integer id) {
+      java.sql.PreparedStatement ps = null;
+      String sql = "delete from tabela_cliente where id_cliente = ?";
+
+      try {
+          ps = getConnection().prepareStatement(sql);
+          ps.setInt(1, id);
+          if (ps.executeUpdate() == 0) {
+              log.warning(ps.toString() + " not deleted.");
+          }
+      } catch (SQLException ex) {
+          //log.severe("", ex);
+      } finally {
+          JDBCUtils.close(ps);
+      }
+    }
+
+    @Override
+    public void destroy(Cliente value) {
+        destroy( value.getID() );
+    }
+
+    @Override
+    public List<Cliente> findEntities() {
+        return findEntities(true, -1, -1);
+    }
+
+    @Override
+    public List<Cliente> findEntities(int maxResults, int firstResult) {
+        return findEntities(false, maxResults, firstResult);
+    }
+
+@Override
+    public List<Cliente> findEntities(boolean all, int maxResults, int firstResult) {
+
+      List<Cliente> result = null;
+      java.sql.PreparedStatement ps = null;
+      java.sql.ResultSet rs = null;
+
+        try {
+          verificaConexao();
+          ps = conn.prepareStatement("select nome_cliente "
+                  + " from tabela_cliente order by nome_cliente");
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                result = new java.util.ArrayList<Cliente>();
+                if (!all) {
+                    int contagem = 1;  // primeiro next
+                    while (contagem < firstResult) {
+                        rs.next();
+                        contagem++;
+                    }
+                }
+                do {
+                  Cliente p = new Cliente();
+                  p.setID(rs.getInt("id_cliente"));
+                  p.setNome(rs.getString("nome_cliente"));
+                  p.setCpf(rs.getString("cpf_cliente"));
+                  p.setEmail(rs.getString("email_cliente"));
+                  p.setCep(rs.getString("cep_cliente"));
+                  p.setCidade(rs.getString("cidade_cliente"));
+                  p.setUf(rs.getString("uf_cliente"));
+                  p.setNr(rs.getInt("nr_cliente"));
+                  p.setRua(rs.getString("rua_cliente"));
+                  p.setData(rs.getDate("data_cliente"));
+
+                  result.add(p);
+                } while ((result.size() < maxResults || all) && rs.next());
+            }
+
+        } catch (java.sql.SQLException ex) {
+            //log.severe("", ex);
+        } finally {
+            JDBCUtils.close(rs);
+            JDBCUtils.close(ps);
+        }
+        return result;
+    }
+
+
+    @Override
+    public Cliente find(Integer id) {
+        Cliente p = null;
+
+        java.sql.PreparedStatement ps = null;
+        java.sql.ResultSet rs = null;
+        String sql = "SELECT id_cliente,nome_cliente " +
+        "from tabela_cliente where id_cliente = ?";
+
+        try {
+            ps = getConnection().prepareStatement(sql);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+              p = new Cliente();
+              p.setID(rs.getInt("id_cliente"));
+              p.setNome(rs.getString("nome_cliente"));
+              p.setCpf(rs.getString("cpf_cliente"));
+              p.setEmail(rs.getString("email_cliente"));
+             // p.setData(rs.getDate("data_cliente"));
+              p.setCep(rs.getString("cep_cliente"));
+              p.setCidade(rs.getString("cidade_cliente"));
+              p.setUf(rs.getString("uf_cliente"));
+              p.setNr(rs.getInt("nr_cliente"));
+              p.setRua(rs.getString("rua_cliente"));
+              p.setData(rs.getDate("data_cliente"));
+            }
+        } catch (SQLException ex) {
+            //log.severe("", ex);
+        } finally {
+            JDBCUtils.close(rs);
+            JDBCUtils.close(ps);
+        }
+        return p;
+    }
+
+
+    public Cliente findByNome(String nome) {
+        Cliente vo = null;
+        java.sql.PreparedStatement ps = null;
+        java.sql.ResultSet rs = null;
+        String sql = "select id_cliente,nome_cliente "
+                + " from tb_cliente where nome_cliente = ?";
+        try {
+            ps = getConnection().prepareStatement(sql);
+            ps.setString(1, nome);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                vo = new Cliente();
+                vo.setID(rs.getInt(1));
+                vo.setNome(rs.getString(2));
+            }
+        } catch (SQLException ex) {
+            //log.severe("", ex);
+        } finally {
+            JDBCUtils.close(rs);
+            JDBCUtils.close(ps);
+        }
+        return vo;
+    }
+
+    @Override
+    public int getCount() {
+        int result = 0;
+        java.sql.PreparedStatement ps = null;
+        java.sql.ResultSet rs = null;
+        String sql = "select count(1) from tb_cliente";
+        try {
+            ps = getConnection().prepareStatement(sql);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                result = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            //log.severe("", ex);
+        } finally {
+            JDBCUtils.close(rs);
+            JDBCUtils.close(ps);
+        }
+        return result;
+    }
+
+
+
+
+
+
+
+
+
 }

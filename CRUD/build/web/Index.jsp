@@ -54,7 +54,7 @@
          
         <div class="login-page">
             <div class="alinhado" >
-                <form  method="post" action="JspForward.jsp">          
+                <form  method="post" action="LoginServlet">          
                     <label>Usuario:</label>
                     <input type="text"  class="form-control" id="usuario" placeholder="Enter usuario" name="usuario">
                     <label for="pwd">Password:</label>

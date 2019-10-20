@@ -9,6 +9,7 @@ import Beans.Cliente;
 import Beans.LoginBean;
 import DAO.ClienteDAO;
 import DAO.UsuarioDAO;
+import static facade.ClienteFacade.insere;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
@@ -78,7 +79,7 @@ public class NovoCliente extends HttpServlet {
                         
                         out.println("indo");
                         ClienteDAO dao = new ClienteDAO();
-                        dao.inserirCliente(p);
+                        insere(p);
                         out.println("b");
                         request.setAttribute("creio", "a");
                         RequestDispatcher rd = request.

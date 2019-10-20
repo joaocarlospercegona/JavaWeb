@@ -8,6 +8,7 @@ package Servlets;
 import Beans.Cliente;
 import Beans.LoginBean;
 import DAO.ClienteDAO;
+import static facade.ClienteFacade.altera;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -75,8 +76,8 @@ public class AlterarClienteServlet extends HttpServlet {
                     pessoa.setUf(uf);
                     
                     //Para de funcionar aqui ver amanha
-                     ClienteDAO dao = new ClienteDAO();
-                     dao.AlteraCliente(pessoa, id);
+                     //ClienteDAO dao = new ClienteDAO();
+                     altera(pessoa, id);
                      
                      request.setAttribute("ai", "oi");
                      RequestDispatcher rd = request.
